@@ -1,4 +1,4 @@
-#include "NLU_LV_TVD.h"
+#include "main.h"
 
 int main()
 {
@@ -12,10 +12,19 @@ int main()
 
     TVD();
 
-    print_sol();
+    //print_sol();
+
+    get_e_max_and_e_rms();
+
+    print_e_max_and_e_rms();
+
+    get_TV();
+
+    print_TV();
 
     print_Kurant_number();
 
+    print_sol_to_file();
 
     getchar();
 
