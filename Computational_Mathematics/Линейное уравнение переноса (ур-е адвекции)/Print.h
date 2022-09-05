@@ -6,12 +6,6 @@
 
 double phi(double x);
 
-void print_sol(void);
-void print_Kurant_number(void);
-void print_TV(void);
-void print_e_max_and_e_rms(void);
-void print_sol_to_file(void);
-
 extern double x[SIZE_X];                       
 extern double time[SIZE_T];
 

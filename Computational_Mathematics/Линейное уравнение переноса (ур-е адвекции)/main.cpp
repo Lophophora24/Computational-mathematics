@@ -26,6 +26,8 @@ int main()
 
     print_sol_to_file();
 
+    print_sol_fix_time_to_file();
+
     getchar();
 
     return 0;

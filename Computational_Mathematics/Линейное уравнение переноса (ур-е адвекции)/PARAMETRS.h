@@ -1,3 +1,6 @@
+#ifndef PARAMETRS_H
+#define PARAMETRS_H
+
 #define h 0.7             // шаг по координате
 #define t 0.05             // шаг по времени
 
@@ -14,3 +17,5 @@
 
 #define SIZE_X (int)((b - a) / h)        // кол-во ячеек в дискретном пространственном отрезке
 #define SIZE_T (int)((T - 0.) / t)       // кол-во ячеек в дискретном временном отрекзе
+
+#endif
