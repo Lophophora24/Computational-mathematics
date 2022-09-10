@@ -4,13 +4,17 @@ int main()
 {
     
     fill_x_and_time();
-    fill_u();   
+    fill_u();  
 
-    //Neyavniy_Leviy_Ugolok();
+    //------------------------------- 
 
-    //Laks_Ventroff();
+    Neyavniy_Leviy_Ugolok();
+
+    Laks_Ventroff();
 
     TVD();
+
+    //------------------------------- 
 
     //print_sol();
 
@@ -24,9 +28,13 @@ int main()
 
     print_Kurant_number();
 
+    //------------------------------- 
+
     print_sol_to_file();
 
     print_sol_fix_time_to_file();
+
+    //------------------------------- 
 
     getchar();
 
