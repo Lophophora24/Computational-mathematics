@@ -5,12 +5,12 @@
 #define t 0.002             // шаг по времени
 
 #define v 1                 // константы в уравнении
-#define D 1
+#define D 0.1
 
 #define r t/h
 #define mu (D*t/(h*h))
 
-#define t0 1                // константы в начальном условии
+#define t0 0                // константы в начальном условии
 #define a_  1
 
 #define a -1                // начало пространственного отрезка

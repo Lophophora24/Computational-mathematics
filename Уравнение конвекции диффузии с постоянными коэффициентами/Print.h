@@ -1,8 +1,9 @@
 #ifndef PRINT_H
 #define PRINT_H
 
-#include "PARAMETRS.h"
 #include <stdio.h>
+#include "PARAMETRS.h"
+
 
 extern double x[SIZE_X];                       
 extern double time[SIZE_T];
