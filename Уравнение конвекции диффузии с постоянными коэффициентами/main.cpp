@@ -14,6 +14,8 @@ int main()
 
     print_sol_fix_time_to_file();
 
+    print_mu_and_Ar();
+
     //------------------------------- 
 
     //getchar();

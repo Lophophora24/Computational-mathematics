@@ -7,6 +7,7 @@ void fill_u(void);
 void MacCorman(void);
 void ObviousNotObvious(void);
 
+void print_mu_and_Ar(void);
 void print_sol_fix_time_to_file(void);
 
 #endif

@@ -1,5 +1,10 @@
 #include "Print.h"
 
+void print_mu_and_Ar()
+{
+    printf("mu = %lf, Ar = %lf\n", mu, v*r);
+}
+
 void print_sol_fix_time_to_file()
 {
     FILE* file = fopen("fix_time sols.txt", "w+");
