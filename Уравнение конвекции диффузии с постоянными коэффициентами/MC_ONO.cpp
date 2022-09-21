@@ -63,7 +63,7 @@ void MacCorman()
         u_MC[n][SIZE_X-2] = phi(time[n], x[SIZE_X-2], t0);
         u_MC[n][SIZE_X-1] = 0;
     }
-
+    
     for(int n = 0; n < SIZE_T - 1; ++n) {
         for(int m = 2; m <= SIZE_X-3; ++m) {
             double u_j       = u_MC[n][m]   - r*v*(u_MC[n][m+1] - u_MC[n][m])   + mu*(u_MC[n][m+1] - 2*u_MC[n][m]   + u_MC[n][m-1]);
