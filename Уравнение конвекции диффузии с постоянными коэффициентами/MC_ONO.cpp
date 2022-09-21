@@ -60,8 +60,8 @@ void MacCorman()
     for(int n = 0; n < SIZE_T; ++n) {
         u_MC[n][0] = 0;
         u_MC[n][1] = phi(time[n], x[1], t0);
-        u_MC[n][SIZE_X-2] = 0;
-        u_MC[n][SIZE_X-1] = phi(time[n], x[SIZE_X-1], t0);
+        u_MC[n][SIZE_X-2] = phi(time[n], x[SIZE_X-2], t0);
+        u_MC[n][SIZE_X-1] = 0;
     }
 
     for(int n = 0; n < SIZE_T - 1; ++n) {
