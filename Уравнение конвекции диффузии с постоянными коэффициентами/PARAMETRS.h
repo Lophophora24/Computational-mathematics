@@ -5,7 +5,7 @@
 #define t 0.002             // шаг по времени
 
 #define v 1                 // константы в уравнении
-#define D 0.003
+#define D 0.004
 
 #define r t/h
 #define mu (D*t/(h*h))

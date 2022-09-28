@@ -86,7 +86,7 @@ void ObviousNotObvious()
 
         for(int j = 1; j < SIZE_X - 1; ++j) {
             A[j+1] = mu / (1 + 2*mu - mu*A[j]);
-            B[j+1] = (r*u_ONO[n][j-1] + (1-r)*u_ONO[n][j] + mu*B[j]) / (1 + 2*mu - mu*A[j]);
+            B[j+1] = (r*v*u_ONO[n][j-1] + (1-r*v)*u_ONO[n][j] + mu*B[j]) / (1 + 2*mu - mu*A[j]);
         }
 
         for(int j = SIZE_X-2; j > 0; --j) {
@@ -118,7 +118,7 @@ void get_e_max_and_e_rms()
                 } else if (l == 1) {
                     diff = abs( u_ONO[time_moments[k]][m] - phi(time[time_moments[k]], x[m], t0) );    
                 }
-                
+
                 e_max[k][l] = __max(e_max[k][l], diff);   
 
                 e_rms[k][l] += (diff * diff);
