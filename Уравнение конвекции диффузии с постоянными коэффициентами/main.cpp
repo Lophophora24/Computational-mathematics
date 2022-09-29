@@ -7,7 +7,7 @@ int main()
 
     //------------------------------- 
 
-    MacCormak();
+    MacCormack();
     ObviousNotObvious();
 
     //------------------------------- 

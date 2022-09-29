@@ -4,7 +4,7 @@
 void fill_x_and_time(void);
 void fill_u(void);
 
-void MacCormak(void);
+void MacCormack(void);
 void ObviousNotObvious(void);
 
 void get_e_max_and_e_rms(void);

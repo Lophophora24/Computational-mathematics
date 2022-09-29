@@ -32,7 +32,7 @@ void print_sol_fix_time_to_file()
 void print_e_max_and_e_rms()
 {
     printf("-----------------------------------------------------------\n");
-    printf("                  Mac-Kormac         Obvious Not Obvious   \n");
+    printf("                  MacCormack         Obvious Not Obvious   \n");
     printf("-----------------------------------------------------------\n");
     printf("   Time       e_max       e_rms       e_max       e_rms    \n");
     printf("-----------------------------------------------------------\n");

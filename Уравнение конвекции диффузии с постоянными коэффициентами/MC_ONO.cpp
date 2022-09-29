@@ -55,7 +55,7 @@ void fill_u()
     }
 }
 
-void MacCormak()
+void MacCormack()
 {
     for(int n = 0; n < SIZE_T; ++n) {
         u_MC[n][0] = 0;
