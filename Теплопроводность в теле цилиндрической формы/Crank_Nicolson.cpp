@@ -1,0 +1,79 @@
+#include "Crank_Nicolson.h"
+
+double x   [SIZE_X];
+double time[SIZE_T];
+
+double c   [SIZE_X];
+double ro  [SIZE_X];
+double k   [SIZE_X];
+double q   [SIZE_X];
+
+double T0(double x) 
+{
+    if (x < b) return 310;
+    else return TT;
+
+    // return 10*exp(-x) + 300;
+}
+
+void fill()
+{
+    for(int i = 0; i < SIZE_X; ++i) {
+        x[i] = (i-0.5)*h;
+        SET_PARAMS(i)
+    }
+
+    for(int i = 0; i < SIZE_T; ++i)
+        time[i] = t * i;
+}
+
+double T_CN[SIZE_T][SIZE_X];
+
+void fill_T()
+{
+    for(int i = 0; i < SIZE_X; ++i) {
+        T_CN[0][i] = T0(x[i]);
+        for(int j = 1; j < SIZE_T; ++j) 
+            T_CN[j][i] = 0;
+    }
+
+}
+
+void Crank_Nicolson()
+{
+    for(int m = 0; m < SIZE_T-1; ++m) {
+
+        double A[SIZE_X]; A[1] = 1;
+        double B[SIZE_X]; B[1] = 0;
+
+        for(int i = 2; i < SIZE_X; ++i) {
+
+            double a_ = -(k[i-1]*(i-2)) / (2*h*h*(i-1.5));
+            double b_ = (c[i-1]*ro[i-1]) / t + (k[i]*(i-1) + k[i-1]*(i-2)) / (2*h*h*(i-1.5));
+            double c_ = -(k[i]*(i-1)) / (2*h*h*(i-1.5));
+            double f_ = -a_ * T_CN[m][i-2] + (2*c[i-1]*ro[i-1]/t - b_) * T_CN[m][i-1] -c_ * T_CN[m][i] + (q[i-1] + q[i-1]) / 2; 
+
+            A[i] = -c_ / (a_*A[i-1] + b_);
+            B[i] = (f_ - a_*B[i-1]) / (a_*A[i-1] + b_);
+        }
+
+        double a_ = -k[SIZE_X-1]/h + alpha/2;
+        double b_ =  k[SIZE_X-1]/h + alpha/2;
+        //double f_ = alpha/2*TT - sigma*pow((T_CN[m][SIZE_X-2] + T_CN[m][SIZE_X-1])/2, 4);
+        double f_ = alpha/2*TT;
+        T_CN[m+1][SIZE_X-1] = (f_ - B[SIZE_X-1]*a_) / (b_ + A[SIZE_X-1]*a_);
+
+        for(int n = SIZE_X-1; n >= 1; --n)
+            T_CN[m+1][n-1] = A[n]*T_CN[m+1][n] + B[n];
+
+    }    
+}
+
+int time_moments[5] = {
+    (int)(0    * SIZE_T / 5),
+    (int)(0.05 * SIZE_T / 5),
+    (int)(0.3  * SIZE_T / 5),
+    (int)(1.   * SIZE_T / 5),
+    (int)(4.5  * SIZE_T / 5),
+};
+

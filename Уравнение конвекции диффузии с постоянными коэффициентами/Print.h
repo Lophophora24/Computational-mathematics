@@ -13,4 +13,7 @@ extern double u_ONO[SIZE_T][SIZE_X];
 
 extern int time_moments[5];
 
+extern double e_max[5][2];
+extern double e_rms[5][2];
+
 #endif

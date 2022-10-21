@@ -55,7 +55,7 @@ void fill_u()
     }
 }
 
-void MacCorman()
+void MacCormack()
 {
     for(int n = 0; n < SIZE_T; ++n) {
         u_MC[n][0] = 0;
@@ -76,6 +76,23 @@ void MacCorman()
 
 void ObviousNotObvious()
 {
+    for(int n = 0; n < SIZE_T; ++n) {
+        u_ONO[n][SIZE_X-1] = 0;
+    }
+
+    for(int n = 0; n < SIZE_T - 1; ++n) {
+        double A[SIZE_X]; A[1] = 0;
+        double B[SIZE_X]; B[1] = u_ONO[n+1][0];
+
+        for(int j = 1; j < SIZE_X - 1; ++j) {
+            A[j+1] = mu / (1 + 2*mu - mu*A[j]);
+            B[j+1] = (r*v*u_ONO[n][j-1] + (1-r*v)*u_ONO[n][j] + mu*B[j]) / (1 + 2*mu - mu*A[j]);
+        }
+
+        for(int j = SIZE_X-2; j > 0; --j) {
+            u_ONO[n+1][j] = A[j+1]*u_ONO[n+1][j+1] + B[j+1];
+        }
+    }
 
 }
 
@@ -86,3 +103,28 @@ int time_moments[5] = {
     (int)(3 * SIZE_T / 5),
     (int)(4.5 * SIZE_T / 5),
 };
+
+double e_max[5][2] = {{0, 0}, };
+double e_rms[5][2] = {{0, 0}, };
+
+void get_e_max_and_e_rms()
+{
+    for(int l = 0; l < 2; ++l) {
+        for(int k = 0; k < 5; ++k) {
+            for(int m = 0; m < SIZE_X; ++m) {
+                double diff = 0;
+                if (l == 0) {
+                    diff = abs( u_MC[time_moments[k]][m] - phi(time[time_moments[k]], x[m], t0) );    
+                } else if (l == 1) {
+                    diff = abs( u_ONO[time_moments[k]][m] - phi(time[time_moments[k]], x[m], t0) );    
+                }
+
+                e_max[k][l] = __max(e_max[k][l], diff);   
+
+                e_rms[k][l] += (diff * diff);
+            }
+
+            e_rms[k][l] = sqrt( e_rms[k][l] / SIZE_X );
+        }
+    }
+}
