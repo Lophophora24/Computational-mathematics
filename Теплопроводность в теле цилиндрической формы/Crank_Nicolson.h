@@ -4,4 +4,6 @@
 #include "PARAMETRS.h"
 #include <math.h>
 
+#include <stdio.h>
+
 #endif

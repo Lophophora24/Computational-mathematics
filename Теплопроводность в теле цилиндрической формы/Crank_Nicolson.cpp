@@ -10,10 +10,8 @@ double q   [SIZE_X];
 
 double T0(double x) 
 {
-    if (x < b) return 310;
+    if (x < b) return 100;
     else return TT;
-
-    // return 10*exp(-x) + 300;
 }
 
 void fill()
@@ -42,12 +40,10 @@ void fill_T()
 void Crank_Nicolson()
 {
     for(int m = 0; m < SIZE_T-1; ++m) {
-
         double A[SIZE_X]; A[1] = 1;
         double B[SIZE_X]; B[1] = 0;
 
         for(int i = 2; i < SIZE_X; ++i) {
-
             double a_ = -(k[i-1]*(i-2)) / (2*h*h*(i-1.5));
             double b_ = (c[i-1]*ro[i-1]) / t + (k[i]*(i-1) + k[i-1]*(i-2)) / (2*h*h*(i-1.5));
             double c_ = -(k[i]*(i-1)) / (2*h*h*(i-1.5));
@@ -59,21 +55,35 @@ void Crank_Nicolson()
 
         double a_ = -k[SIZE_X-1]/h + alpha/2;
         double b_ =  k[SIZE_X-1]/h + alpha/2;
-        //double f_ = alpha/2*TT - sigma*pow((T_CN[m][SIZE_X-2] + T_CN[m][SIZE_X-1])/2, 4);
-        double f_ = alpha/2*TT;
-        T_CN[m+1][SIZE_X-1] = (f_ - B[SIZE_X-1]*a_) / (b_ + A[SIZE_X-1]*a_);
+        double f_ = alpha*TT; 
+        double g_ = -sigma/pow(2, 4); //g_ = 0;
+
+        double prev_temp = 100;
+        while (abs(prev_temp - T_CN[m+1][SIZE_X-1]) > 0.0001) {
+            prev_temp = T_CN[m+1][SIZE_X-1];
+            T_CN[m+1][SIZE_X-1] = (-B[SIZE_X-1]*a_ + f_ + g_*pow(T_CN[m+1][SIZE_X-1] + T_CN[m+1][SIZE_X-2], 4)) / (A[SIZE_X-1]*a_ + b_);
+            //printf("m = %d, %lf\n", m+1,  T_CN[m+1][SIZE_X-1]);
+            //getchar();
+        }
 
         for(int n = SIZE_X-1; n >= 1; --n)
-            T_CN[m+1][n-1] = A[n]*T_CN[m+1][n] + B[n];
-
+            T_CN[m+1][n-1] = A[n]*T_CN[m+1][n] + B[n];       
     }    
 }
 
+// int time_moments[5] = {
+//     (int)(0    * SIZE_T / 5), 
+//     (int)(0.05 * SIZE_T / 5),
+//     (int)(0.3  * SIZE_T / 5),
+//     (int)(1.   * SIZE_T / 5),
+//     (int)(4.5  * SIZE_T / 5),
+// };
+
 int time_moments[5] = {
-    (int)(0    * SIZE_T / 5),
-    (int)(0.05 * SIZE_T / 5),
-    (int)(0.3  * SIZE_T / 5),
-    (int)(1.   * SIZE_T / 5),
+    (int)(0    * SIZE_T / 5), 
+    (int)(1 * SIZE_T / 5),
+    (int)(2  * SIZE_T / 5),
+    (int)(3   * SIZE_T / 5),
     (int)(4.5  * SIZE_T / 5),
 };
 
