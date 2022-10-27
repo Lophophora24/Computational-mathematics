@@ -10,8 +10,10 @@ double q   [SIZE_X];
 
 double T0(double x) 
 {
-    if (x < b) return 100;
-    else return TT;
+    if (x < b) return 350;
+    else return 330;
+
+    // return 350;
 }
 
 void fill()
@@ -59,9 +61,19 @@ void Crank_Nicolson()
         double g_ = -sigma/pow(2, 4); //g_ = 0;
 
         double prev_temp = 100;
-        while (abs(prev_temp - T_CN[m+1][SIZE_X-1]) > 0.0001) {
+        int counter = 0;
+        // while (counter < 30) { 
+        //     prev_temp = T_CN[m+1][SIZE_X-1];
+        //     T_CN[m+1][SIZE_X-1] = (-B[SIZE_X-1]*a_ + f_ + g_*pow(T_CN[m+1][SIZE_X-1] + T_CN[m+1][SIZE_X-2], 4)) / (A[SIZE_X-1]*a_ + b_);
+        //     T_CN[m+1][SIZE_X-2] = A[SIZE_X-1]*prev_temp + B[SIZE_X-1];
+        //     counter++;
+        //     // printf("m = %d, %lf\n", m+1,  T_CN[m+1][SIZE_X-1]);
+        //     // getchar();
+        // }        
+        while (abs(prev_temp - T_CN[m+1][SIZE_X-1]) > 0.0001) { 
             prev_temp = T_CN[m+1][SIZE_X-1];
             T_CN[m+1][SIZE_X-1] = (-B[SIZE_X-1]*a_ + f_ + g_*pow(T_CN[m+1][SIZE_X-1] + T_CN[m+1][SIZE_X-2], 4)) / (A[SIZE_X-1]*a_ + b_);
+            T_CN[m+1][SIZE_X-2] = A[SIZE_X-1]*prev_temp + B[SIZE_X-1];
             //printf("m = %d, %lf\n", m+1,  T_CN[m+1][SIZE_X-1]);
             //getchar();
         }
@@ -81,9 +93,9 @@ void Crank_Nicolson()
 
 int time_moments[5] = {
     (int)(0    * SIZE_T / 5), 
-    (int)(1 * SIZE_T / 5),
-    (int)(2  * SIZE_T / 5),
-    (int)(3   * SIZE_T / 5),
-    (int)(4.5  * SIZE_T / 5),
+    (int)(0.625 * SIZE_T / 5),
+    (int)(1.25  * SIZE_T / 5),
+    (int)(2.5   * SIZE_T / 5),
+    (int)(5  * SIZE_T / 5 - 1),
 };
 
