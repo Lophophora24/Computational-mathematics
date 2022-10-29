@@ -56,16 +56,18 @@ void Crank_Nicolson()
         double a_ = -k[SIZE_X-1]/h + alpha/2;
         double b_ =  k[SIZE_X-1]/h + alpha/2;
         double f_ = alpha*TT; 
-        double g_ = -sigma; //g_ = 0;
+        double g_ = -sigma;     //g_ = 0;
 
-        double prev_temp = 100;        
-        while (abs(prev_temp - T_CN[m+1][SIZE_X-1]) > 1e-8) { 
+        double prev_temp = 100;
+        while (abs(T_CN[m+1][SIZE_X-1] - prev_temp) > 1e-10) {
+
             prev_temp = T_CN[m+1][SIZE_X-1];
-            T_CN[m+1][SIZE_X-1] = (-B[SIZE_X-1]*a_ + f_ + g_*pow((T_CN[m+1][SIZE_X-1] + A[SIZE_X-1]*T_CN[m+1][SIZE_X-1] + B[SIZE_X-1])/2, 4)) / (A[SIZE_X-1]*a_ + b_);
-        }
+            T_CN[m+1][SIZE_X-1] = (-B[SIZE_X-1]*a_ + f_ + g_*pow((T_CN[m+1][SIZE_X-1] + T_CN[m+1][SIZE_X-2])/2, 4)) / (A[SIZE_X-1]*a_ + b_);
 
-        for(int n = SIZE_X-1; n >= 1; --n)
-            T_CN[m+1][n-1] = A[n]*T_CN[m+1][n] + B[n];
+            for(int n = SIZE_X-1; n >= 1; --n)
+                T_CN[m+1][n-1] = A[n]*T_CN[m+1][n] + B[n];
+
+        }
 
         // if (m == SIZE_T-2) {
         //     printf("i = 1, test_solution = %lf\n", T_CN[m+1][0] - T_CN[m+1][1]);
