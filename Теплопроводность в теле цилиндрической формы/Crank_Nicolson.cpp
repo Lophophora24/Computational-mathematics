@@ -55,7 +55,7 @@ void Crank_Nicolson()
 
         double a_ = -k[SIZE_X-1]/h + alpha/2;
         double b_ =  k[SIZE_X-1]/h + alpha/2;
-        double f_ = alpha*TT; 
+        double f_ = alpha*TT;   //f_ = 0; 
         double g_ = -sigma;     //g_ = 0;
 
         double prev_temp = 100;
@@ -63,6 +63,8 @@ void Crank_Nicolson()
 
             prev_temp = T_CN[m+1][SIZE_X-1];
             T_CN[m+1][SIZE_X-1] = (-B[SIZE_X-1]*a_ + f_ + g_*pow((T_CN[m+1][SIZE_X-1] + T_CN[m+1][SIZE_X-2])/2, 4)) / (A[SIZE_X-1]*a_ + b_);
+            printf("%lf\n", T_CN[m+1][SIZE_X-1]);
+            getchar();
 
             for(int n = SIZE_X-1; n >= 1; --n)
                 T_CN[m+1][n-1] = A[n]*T_CN[m+1][n] + B[n];
@@ -78,4 +80,9 @@ int time_moments[5] = {
     (int)(2.5   * SIZE_T / 5),
     (int)(5  * SIZE_T / 5 - 1),
 };
+
+
+
+
+
 
