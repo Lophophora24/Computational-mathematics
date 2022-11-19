@@ -133,8 +133,69 @@ void Laks_Vendroff()
                 Q_p = {0, 0, 0};
             
             f[j+1][i] = f[j+1][i] + (Q_p - Q_m)*q;
+            F[j+1][i] = F_(j+1, i);
+
+            pressure[j+1][i] = (f[j+1][i].at(2) - f[j+1][i].at(1)*f[j+1][i].at(1)/2/f[j+1][i].at(0))*(g-1);
         }
     }           
+}
+
+void Mc_Cormack()
+{
+    for(int j = 0; j < SIZE_T-1; ++j) {
+        for(int i = 1; i < SIZE_X-1; ++i) {
+            std::vector<double> f_ = f[j][i] - (F[j][i+1] - F[j][i])*t/h;  // это f_i с чертой
+            std::vector<double> f__ = f[j][i-1] - (F[j][i] - F[j][i-1])*t/h; // это f_{i-1} с чертой
+
+            double ro = f_.at(0);                  // это компоненты первого f
+            double U = f_.at(1);
+            double E = f_.at(2);
+            double p = (E-U*U/2/ro)*(g-1);         // заодно можем давление посчитать
+
+            double ro_ = f__.at(0);                // это компоненты второго f
+            double U_ = f__.at(1);
+            double E_ = f__.at(2);
+            double p_ = (E_-U_*U_/2/ro_)*(g-1);    // и тут тоже давление посчитаем
+
+            std::vector<double> F__ = {U, U*U/ro+p, U/ro*(E+p)};   // это F_i с чертой
+            std::vector<double> F___ = {U_, U_*U_/ro_+p_, U_/ro_*(E_+p_)}; // а это F_{i-1} с чертой
+
+            f[j+1][i] = (f[j][i] + f_)*0.5 - (F__ - F___)*t/2/h;
+            F[j+1][i] = F_(j+1, i);                // это заполнение F, он весь выражается через f, ф-я где-то наверху
+
+            pressure[j+1][i] = (f[j+1][i].at(2) - f[j+1][i].at(1)*f[j+1][i].at(1)/2/f[j+1][i].at(0))*(g-1); // это давление на j+1 временном слое в точке i, оно у меня в отдельном двумерном массиве хранится
+
+
+        }
+
+        for(int i = 2; i < SIZE_X-2; ++i) {
+            double r_1 = f[j+1][i-1].at(0);
+            double r_2 = f[j+1][i-2].at(0);
+            double r_0 = f[j+1][i].at(0);
+            double r2  = f[j+1][i+2].at(0);
+            double r1  = f[j+1][i+1].at(0);
+
+            double D_MM = r_1 - r_2, D_M = r_0 - r_1;
+            double D_P = r1 - r_0, D_PP = r2 - r1;
+
+            std::vector<double> Q_m, Q_p; 
+
+            if (D_MM*D_M <= 0 || D_M*D_P <= 0) 
+                Q_m = f[j+1][i] - f[j+1][i-1];
+            else 
+                Q_m = {0, 0, 0};
+            
+            if (D_M*D_P <= 0 || D_P*D_PP <= 0)
+                Q_p = f[j+1][i+1] - f[j+1][i];
+            else 
+                Q_p = {0, 0, 0};
+            
+            f[j+1][i] = f[j+1][i] + (Q_p - Q_m)*q;
+            F[j+1][i] = F_(j+1, i);     // после уточнения
+
+            pressure[j+1][i] = (f[j+1][i].at(2) - f[j+1][i].at(1)*f[j+1][i].at(1)/2/f[j+1][i].at(0))*(g-1); // после уточнения
+        }
+    }    
 }
 
 double a1(double P) 
@@ -179,10 +240,10 @@ void find_parametrs_analitically()
 
 int time_moments[5] = {
     (int)(0    * SIZE_T / 5), 
-    (int)(2 * SIZE_T / 5), 
-    (int)(3  * SIZE_T / 5),
-    (int)(4   * SIZE_T / 5),
-    (int)(5 * SIZE_T / 5 - 1),
+    (int)(1 * SIZE_T / 4), 
+    (int)(2  * SIZE_T / 4),
+    (int)(3   * SIZE_T / 4),
+    (int)(4 * SIZE_T / 4 - 1),
 };
 
 

@@ -7,6 +7,7 @@ void fill(void);
 void fill_T(void);
 
 void Laks_Vendroff(void);
+void Mc_Cormack(void);
 
 void print_sol_fix_time_to_file(void);
 

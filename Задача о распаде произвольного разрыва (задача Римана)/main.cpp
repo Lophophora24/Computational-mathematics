@@ -7,6 +7,7 @@ int main()
     fill_T();
 
     Laks_Vendroff();
+    //Mc_Cormack();
 
     print_sol_fix_time_to_file();
 
